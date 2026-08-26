@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Word Game</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(
+        -45deg,
+        #ff6b6b,
+        #feca57,
+        #48dbfb,
+        #5f27cd
+    );
+    background-size:400% 400%;
+    animation:gradient 12s ease infinite;
+    overflow:hidden;
+}
+
+@keyframes gradient{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.bubble{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.15);
+    animation:float 8s infinite ease-in-out;
+}
+
+.bubble:nth-child(1){
+    width:180px;
+    height:180px;
+    top:10%;
+    left:10%;
+}
+
+.bubble:nth-child(2){
+    width:120px;
+    height:120px;
+    bottom:10%;
+    right:15%;
+}
+
+.bubble:nth-child(3){
+    width:90px;
+    height:90px;
+    top:70%;
+    left:25%;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-20px);
+    }
+}
+
+.container{
+    width:90%;
+    max-width:500px;
+    padding:30px;
+    border-radius:25px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
+    text-align:center;
+    color:white;
+    box-shadow:0 8px 32px rgba(0,0,0,0.25);
+    z-index:1;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+.number{
+    font-size:60px;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00c853;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#009624;
+}
+
+.message{
+    margin-top:15px;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.score{
+    margin-top:15px;
+    font-size:22px;
+}
+</style>
+</head>
+<body>
+
+<div class="bubble"></div>
+<div class="bubble"></div>
+<div class="bubble"></div>
+
+<div class="container">
+
+    <h1>🎮 Number Word Game</h1>
+
+    <div class="number" id="number">15</div>
+
+    <input type="text"
+           id="answer"
+           placeholder="Type number in words">
+
+    <button onclick="checkAnswer()">
+        Submit Answer
+    </button>
+
+    <div class="message" id="message"></div>
+
+    <div class="score">
+        Score: <span id="score">0</span>
+    </div>
+
+</div>
+
+<script>
+
+const numbers = [
+{num:5,word:"five"},
+{num:10,word:"ten"},
+{num:15,word:"fifteen"},
+{num:20,word:"twenty"},
+{num:25,word:"twenty five"},
+{num:30,word:"thirty"},
+{num:40,word:"forty"},
+{num:50,word:"fifty"},
+{num:60,word:"sixty"},
+{num:75,word:"seventy five"},
+{num:90,word:"ninety"},
+{num:100,word:"one hundred"}
+];
+
+let score = 0;
+let current;
+
+function newQuestion(){
+    current =
+    numbers[Math.floor(Math.random()*numbers.length)];
+
+    document.getElementById("number").innerText =
+    current.num;
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("message").innerText = "";
+}
+
+function checkAnswer(){
+
+    let userAnswer =
+    document.getElementById("answer")
+    .value
+    .toLowerCase()
+    .trim();
+
+    if(userAnswer === current.word){
+
+        score++;
+
+        document.getElementById("message")
+        .innerHTML = "✅ Correct!";
+
+    }else{
+
+        document.getElementById("message")
+        .innerHTML =
+        "❌ Correct Answer: " + current.word;
+    }
+
+    document.getElementById("score")
+    .innerText = score;
+
+    setTimeout(newQuestion,1500);
+}
+
+newQuestion();
+
+</script>
+
+</body>
+</html>
